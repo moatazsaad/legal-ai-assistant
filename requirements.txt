@@ -93,7 +93,7 @@ toml==0.10.2
 tomlkit==0.13.3
 torch==2.8.0
 torchaudio==2.8.0
-torchvision==0.20.1+cu121
+torchvision==0.20.1
 tornado==6.5.2
 tqdm==4.67.1
 transformers==4.56.1
