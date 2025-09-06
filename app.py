@@ -10,7 +10,7 @@ st.write("Ask questions about legal provisions and get concise AI-generated answ
 @st.cache_resource
 def load_assistant():
     assistant = LegalAIAssistant()
-    df = assistant.load_dataset("hf://datasets/TheFuzzyScientist/ledgar_qa_retrieval/dataset.parquet")
+    df = assistant.load_dataset("hf://datasets/Moataz88Saad/ledgar_qa_retrieval/dataset.parquet")
     df["embeddings"] = list(assistant.get_embeddings(df["provision"].tolist()))
     return assistant, df
 
