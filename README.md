@@ -68,7 +68,6 @@ streamlit run streamlit_app.py
 
 ## Demo & Resources
 
-* \[Live Demo (Streamlit)]\([Streamlit Link](https://legal-assistant-9ebcqkryukwaww6c4fgpgv.streamlit.app/))
 * [Video Demo (YouTube)](https://www.youtube.com/watch?v=cz_Eujb9m7E)
   
 ## Project Highlights
