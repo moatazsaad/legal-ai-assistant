@@ -67,7 +67,7 @@ streamlit run streamlit_app.py
 * Live deployment available via Streamlit and FastAPI endpoints
 
 ## Demo & Resources
-
+* [Live Demo (Streamlit)](https://legal-ai-assistant-iucwufiyajo5u4o2bkcvtn.streamlit.app)
 * [Video Demo (YouTube)](https://www.youtube.com/watch?v=cz_Eujb9m7E)
   
 ## Project Highlights
