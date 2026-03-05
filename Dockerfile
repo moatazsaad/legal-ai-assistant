@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy only requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Upgrade pip and install Python dependencies including multipart for form handling
+# Upgrade pip and install Python dependencies 
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt 
 
 # Copy the rest of the application code into container
@@ -18,4 +18,5 @@ EXPOSE 8000
 
 # Run FastAPI app using Uvicorn
 CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "8000"]
+
 
