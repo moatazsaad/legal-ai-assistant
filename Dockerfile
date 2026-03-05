@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Upgrade pip and install Python dependencies including multipart for form handling
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt && pip install --no-cache-dir python-multipart
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt 
 
 # Copy the rest of the application code into container
 COPY . .
@@ -18,3 +18,4 @@ EXPOSE 8000
 
 # Run FastAPI app using Uvicorn
 CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "8000"]
+
