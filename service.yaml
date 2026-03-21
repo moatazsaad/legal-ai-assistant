@@ -1,0 +1,26 @@
+# Use Kubernetes API version v1 for Service objects
+apiVersion: v1
+
+# Kind of resource: Service exposes Pods to the network
+kind: Service
+
+# Metadata about the Service
+metadata:
+  # Name of the Service inside the cluster
+  name: legal-ai-service
+
+# Specification of the Service behavior
+spec:
+  # Tells GCP to provision an external IP automatically
+  type: LoadBalancer
+
+  # Selector links the Service to Pods with matching labels
+  selector:
+    app: legal-ai
+
+  # Define the ports for the Service
+  ports:
+    - protocol: TCP                 # TCP for HTTP/HTTPS traffic
+      port: 8000                    # External port of the Service where users will connect to
+      targetPort: 8000              # Port where container is listening on
+                                     

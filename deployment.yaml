@@ -1,0 +1,30 @@
+# Kubernetes API version for Deployment
+apiVersion: apps/v1
+# Resource type
+kind: Deployment
+# Name of the Deployment object
+metadata:
+  name: legal-ai-deployment
+spec:
+  # Number of Pod replicas to run
+  replicas: 2
+  selector:
+    matchLabels:
+      # Tells K8s which Pods belong to this Deployment.
+      app: legal-ai
+# Pod template for this Deployment
+  template:
+    metadata:
+      # Label for the Pod
+      labels:
+        app: legal-ai
+    spec:
+      # List of containers in the Pod
+      containers:
+      - name: legal-ai
+        # Docker image to deploy
+        image: moatazosama/legal-assistant-app:latest
+        imagePullPolicy: Always
+        # Port inside the container that the app listens on
+        ports:
+        - containerPort: 8000

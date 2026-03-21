@@ -1,38 +1,79 @@
 # Legal AI Assistant
-Ask questions about legal provisions and get concise answers using AI models.
 
-## Project Overview
-This project provides an AI-powered assistant for legal documents. It leverages sentence embeddings and large language models (LLMs) to help users quickly find relevant legal provisions and generate concise answers. The system works by embedding the legal text, comparing it with user queries, and using the most relevant context to produce answers.
+## Overview
+The Legal AI Assistant is an end-to-end AI/ML application that retrieves relevant legal provisions and generates concise answers. The project demonstrates expertise in embeddings, LLMs, FastAPI, Streamlit, and cloud deployment.
 
-Key components:
-- **Sentence embeddings**: Convert legal provisions and user questions into numerical vectors for similarity search.
-- **Similarity search**: Retrieves the top relevant provisions based on query-provision similarity.
-- **LLM-based answer generation**: Uses a text-to-text generation model to produce answers using the retrieved provisions as context.
+## Key Features
+- Retrieves relevant legal provisions using sentence embeddings and cosine similarity
+- Generates concise answers using Flan-T5
+- Interactive web interface via **Streamlit**
+- REST API using **FastAPI**
+- Fully deployed on **Google Cloud Platform (GCP)** with Docker and Kubernetes
 
-## Setup
-1. Clone the repository
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the app: `streamlit run app.py`
+## Tech Stack
+- **Programming:** Python
+- **ML/AI:** Flan-T5, SentenceTransformers embeddings, cosine similarity
+- **Frameworks & Libraries:** FastAPI, Streamlit, Pandas, NumPy, Transformers, python-multipart
+- **Deployment & Cloud:** Docker, Kubernetes (GKE), GCP
 
-## Features
-- Retrieve relevant legal provisions
-- Generate AI-based answers with context
+## Project Structure
+```
 
-## Usage Example
-```python
-from legal_assistant import LegalAIAssistant
-import pandas as pd
+legal-ai-assistant/
+├── fastapi\_app.py         # FastAPI backend
+├── legal\_assistant.py     # Core AI/ML logic
+├── streamlit\_app.py       # Streamlit frontend
+├── templates/
+│   └── index.html         # HTML template for FastAPI app
+├── Dockerfile             # Docker image setup
+├── requirements.txt       # Python dependencies
+├── deployment.yaml        # Kubernetes deployment config
+├── service.yaml           # Kubernetes service config
+└── README.md
 
-# Load dataset
-df = LegalAIAssistant.load_dataset("provisions.parquet")
-provisions = df["provision"].tolist()
-provision_embeddings = df["embedding"].tolist()
+````
 
-# Initialize assistant
-assistant = LegalAIAssistant()
+## Getting Started (Local Run)
 
-# Ask a question
-question = "What are the termination clauses?"
-answer, context = assistant.generate_answer(question, provisions, provision_embeddings)
-print("Answer:", answer)
-print("Context used:", context)
+1. **Clone the repository:**  
+```bash
+git clone <repo-link>
+cd legal-ai-assistant
+````
+
+2. **Install dependencies:**
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+3. **Run FastAPI locally:**
+
+```bash
+uvicorn fastapi_app:app --reload --host 0.0.0.0 --port 8000
+```
+
+4. **Run Streamlit locally:**
+
+```bash
+streamlit run streamlit_app.py
+```
+
+## Deployment
+
+* Dockerized app for containerized deployment
+* Kubernetes deployment (`deployment.yaml`) and service (`service.yaml`) for GCP
+* Live deployment available via Streamlit and FastAPI endpoints
+
+## Demo & Resources
+
+* \[Live Demo (Streamlit)]\([Streamlit Link](https://legal-assistant-9ebcqkryukwaww6c4fgpgv.streamlit.app/))
+* \[Video Demo]\([YouTube Link](https://youtu.be/2pU2D58i4Po))
+
+## Project Highlights
+
+* Demonstrates full AI/ML pipeline: dataset processing → embeddings → LLM integration → web interface → cloud deployment
+* Combines **FastAPI** and **Streamlit** for both API and interactive frontend
+* Scalable cloud-deployed solution using **Docker** and **Kubernetes**
+
