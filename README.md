@@ -1,144 +1,140 @@
 # Legal AI Assistant
 
-A production style **Retrieval-Augmented Generation (RAG)** system for answering questions over legal contract clauses, built with **FastAPI**, **Docker**, and **AWS EC2**.
+A deployed Retrieval-Augmented Generation (RAG) system for answering questions over legal contract clauses, combining semantic retrieval, LLM generation, evaluation, and cloud deployment.
 
-## Live Demo (may be temporarily offline to reduce costs)
-
-- **App:** `http://54.167.63.246:8000`
-- **API Docs:** `http://54.167.63.246:8000/docs`
+---
 
 ## Overview
+This project builds an end-to-end legal question answering system that retrieves relevant contract provisions and generates clear, evidence-based answers.
 
-This project implements an end-to-end **legal question answering system** that retrieves relevant contract provisions and generates answers grounded in those provisions.
+It demonstrates practical AI engineering across:
+- Retrieval-augmented generation (RAG)
+- Semantic search using embeddings
+- Evaluation with ranking metrics
+- Backend API development
+- Cloud deployment (AWS and GCP)
 
-It demonstrates practical AI engineering skills including:
+---
 
-- RAG pipeline design
-- semantic search with embeddings
-- retrieval evaluation using ranking metrics
-- API deployment with FastAPI, Docker, and AWS
+## Key Features
+- Semantic retrieval using sentence embeddings and similarity scoring  
+- LLM-based answer generation (Flan-T5 / Qwen)  
+- Transparent outputs with supporting provisions  
+- Evaluation pipeline with strong metrics  
+- FastAPI backend and Streamlit UI  
+- Deployment using Docker, Kubernetes, AWS EC2, and GCP  
 
-## Features
-
-- Semantic retrieval over legal clauses
-- Retrieval-augmented answer generation
-- FastAPI backend with a simple web interface
-- Evaluation pipeline with **Recall@K** and **MRR@K**
-- Cloud deployment on AWS EC2
+---
 
 ## How It Works
+1. Convert user query into embeddings  
+2. Retrieve top-k similar legal clauses  
+3. Pass retrieved context to the LLM  
+4. Generate answer grounded in retrieved provisions  
+5. Return answer with supporting evidence  
 
-1. **Load dataset**  
-   Legal clauses are loaded from a structured dataset.
-
-2. **Create embeddings**  
-   Each clause is converted into vector embeddings for semantic search.
-
-3. **Retrieve relevant clauses**  
-   The system finds the top-k most relevant provisions for a user query.
-
-4. **Generate answer**  
-   The retrieved provisions are used as supporting context for the final answer.
+---
 
 ## Architecture
 
-```text
+```
+
 User Query
-   ↓
-FastAPI App
-   ↓
+↓
 Embedding Model
-   ↓
-Similarity Search (Top-K Retrieval)
-   ↓
-Retrieved Legal Clauses
-   ↓
-Generated Answer
-````
+↓
+Similarity Search (Top-K)
+↓
+Retrieved Provisions
+↓
+LLM Generation
+↓
+Final Answer + Evidence
 
-## Evaluation Results
+```
 
-The retrieval component was evaluated on a curated 20-question legal QA dataset using section-level ground truth.
+---
 
-* **Recall@3: 0.950**
-* **MRR@5: 0.9250**
+## Evaluation
+
+The retrieval system was evaluated on a curated dataset of 20 legal questions.
+
+| Metric     | Score |
+|------------|------|
+| Recall@3   | 0.95 |
+| MRR@5      | 0.925 |
 
 ### Interpretation
+- The correct section appears within the top 3 results for 95% of queries  
+- In most cases, the correct section is ranked first  
 
-* The correct section appears within the top 3 results in **95% of queries**
-* In most cases, the correct section is ranked **first**, with occasional cases at rank 2
-
-### Example Retrieval
-
-* **Question:** Which law governs this agreement?
-* **Expected Section:** governing laws
-* **Top Retrieved Sections:** governing laws, governing laws, severability
-* **Result:** Correct section ranked first
-
-### Challenging Case
-
-* **Question:** What legal authority resolves disputes in this agreement?
-* **Expected Section:** governing laws
-* **Top Retrieved Sections:** general, governing laws, governing laws
-* **Result:** Correct section found at rank 2
+### Example
+Question: Which law governs this agreement?  
+Top Results: governing laws, governing laws, severability  
+Result: Correct section ranked first  
 
 ### Failure Case
+Question: Does the company indemnify parties for tax penalties?  
+Result: Incorrect sections retrieved, showing realistic system limitations  
 
-* **Question:** Does the company indemnify parties for tax penalties?
-* **Expected Section:** general
-* **Top Retrieved Sections:** taxes, taxes, taxes
-* **Result:** Correct section not retrieved in top 3
+---
+
+## Tech Stack
+
+- Programming: Python  
+- ML/AI: SentenceTransformers, Flan-T5, Qwen  
+- Frameworks: FastAPI, Streamlit  
+- Libraries: Pandas, NumPy, Transformers  
+- Deployment: Docker, Kubernetes (GKE), AWS EC2  
+
+---
 
 ## Project Structure
 
-```text
-legal-assistant/
-│
+```
+
+legal-ai-assistant/
 ├── app/
 │   ├── fastapi_app.py
 │   └── legal_assistant.py
 ├── evaluation/
 │   ├── eval_mrr.py
-│   └── eval_recall.py
+│   ├── eval_recall.py
 ├── templates/
-├── requirements.txt
+│   └── index.html
+├── streamlit_app.py
 ├── Dockerfile
+├── deployment.yaml
+├── service.yaml
+├── requirements.txt
 └── README.md
-```
 
-## Tech Stack
+````
 
-* Python
-* FastAPI
-* Sentence Transformers
-* PyTorch
-* Pandas
-* NumPy
-* Docker
-* AWS EC2
+---
 
 ## Run Locally
 
 ```bash
-git clone <your-repo-url>
-cd legal-assistant
+git clone https://github.com/moatazsaad/legal-ai-assistant.git
+cd legal-ai-assistant
+
 python -m venv venv
-source venv/bin/activate
+venv\Scripts\activate   # Windows
+# source venv/bin/activate  # Mac/Linux
+
 pip install -r requirements.txt
+
 uvicorn app.fastapi_app:app --reload --port 8000
-```
+streamlit run streamlit_app.py
+````
 
-For Windows:
+Access:
 
-```bash
-venv\Scripts\activate
-```
+* API: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+* UI: [http://localhost:8501](http://localhost:8501)
 
-Then open:
-
-```text
-http://127.0.0.1:8000
-```
+---
 
 ## Run with Docker
 
@@ -147,13 +143,31 @@ docker build -t legal-ai-assistant .
 docker run -p 8000:8000 legal-ai-assistant
 ```
 
+---
+
+## Deployment
+
+* Deployed on AWS EC2 and Google Cloud (GKE)
+* Containerized using Docker
+* Supports scalable deployment via Kubernetes
+
+---
+
 ## Example Questions
 
-* Who is responsible for paying insurance premiums and what proof may be required?
 * Which law governs this agreement?
-* How must notices be given under this agreement?
+* How must notices be given?
 * What happens if a provision is unenforceable?
-* Does this agreement override prior oral agreements?
+* Who is responsible for insurance premiums?
 
+---
 
+## Key Highlights
+
+* End-to-end RAG system (retrieval, generation, evaluation, deployment)
+* Explainable AI with evidence-backed outputs
+* Real evaluation using IR metrics (Recall, MRR)
+* Designed for production-style deployment
+
+---
 
