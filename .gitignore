@@ -1,4 +1,34 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+data.py
 
+# Virtual environment
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# Streamlit cache
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Model/cache files
+*.bin
+*.pt
+*.ckpt
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets
+*.pem

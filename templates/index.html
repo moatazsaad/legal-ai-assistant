@@ -3,16 +3,51 @@
 <head>
     <title>Legal AI Assistant</title>
     <style>
-        body { font-family: Arial; max-width: 600px; margin: 50px auto; }
-        input[type=text] { width: 80%; padding: 10px; margin-bottom: 10px; }
-        button { padding: 10px 20px; }
-        .result { margin-top: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            line-height: 1.5;
+        }
+
+        input[type=text] {
+            width: 75%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .context-box {
+            background: #f7f7f7;
+            padding: 12px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Legal AI Assistant</h1>
+
     <form action="/ask" method="post">
-        <input type="text" name="question" placeholder="Enter your legal question" required>
+        <input
+            type="text"
+            name="question"
+            placeholder="Enter your legal question"
+            value="{{ question if question else '' }}"
+            required
+        >
         <button type="submit">Ask</button>
     </form>
 
@@ -20,10 +55,14 @@
     <div class="result">
         <h3>Question:</h3>
         <p>{{ question }}</p>
+
         <h3>Answer:</h3>
         <p>{{ answer }}</p>
-        <h4>Context:</h4>
-        <p>{{ context }}</p>
+
+        {% if context %}
+        <h3>Supporting Provisions:</h3>
+        <div class="context-box">{{ context }}</div>
+        {% endif %}
     </div>
     {% endif %}
 </body>

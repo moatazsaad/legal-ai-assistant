@@ -1,79 +1,159 @@
 # Legal AI Assistant
 
+A production style **Retrieval-Augmented Generation (RAG)** system for answering questions over legal contract clauses, built with **FastAPI**, **Docker**, and **AWS EC2**.
+
+## Live Demo (may be temporarily offline to reduce costs)
+
+- **App:** `http://54.167.63.246:8000`
+- **API Docs:** `http://54.167.63.246:8000/docs`
+
 ## Overview
-The Legal AI Assistant is an end-to-end AI/ML application that retrieves relevant legal provisions and generates concise answers. The project demonstrates expertise in embeddings, LLMs, FastAPI, Streamlit, and cloud deployment.
 
-## Key Features
-- Retrieves relevant legal provisions using sentence embeddings and cosine similarity
-- Generates concise answers using Flan-T5
-- Interactive web interface via **Streamlit**
-- REST API using **FastAPI**
-- Fully deployed on **Google Cloud Platform (GCP)** with Docker and Kubernetes
+This project implements an end-to-end **legal question answering system** that retrieves relevant contract provisions and generates answers grounded in those provisions.
 
-## Tech Stack
-- **Programming:** Python
-- **ML/AI:** Flan-T5, SentenceTransformers embeddings, cosine similarity
-- **Frameworks & Libraries:** FastAPI, Streamlit, Pandas, NumPy, Transformers, python-multipart
-- **Deployment & Cloud:** Docker, Kubernetes (GKE), GCP
+It demonstrates practical AI engineering skills including:
+
+- RAG pipeline design
+- semantic search with embeddings
+- retrieval evaluation using ranking metrics
+- API deployment with FastAPI, Docker, and AWS
+
+## Features
+
+- Semantic retrieval over legal clauses
+- Retrieval-augmented answer generation
+- FastAPI backend with a simple web interface
+- Evaluation pipeline with **Recall@K** and **MRR@K**
+- Cloud deployment on AWS EC2
+
+## How It Works
+
+1. **Load dataset**  
+   Legal clauses are loaded from a structured dataset.
+
+2. **Create embeddings**  
+   Each clause is converted into vector embeddings for semantic search.
+
+3. **Retrieve relevant clauses**  
+   The system finds the top-k most relevant provisions for a user query.
+
+4. **Generate answer**  
+   The retrieved provisions are used as supporting context for the final answer.
+
+## Architecture
+
+```text
+User Query
+   ↓
+FastAPI App
+   ↓
+Embedding Model
+   ↓
+Similarity Search (Top-K Retrieval)
+   ↓
+Retrieved Legal Clauses
+   ↓
+Generated Answer
+````
+
+## Evaluation Results
+
+The retrieval component was evaluated on a curated 20-question legal QA dataset using section-level ground truth.
+
+* **Recall@3: 0.950**
+* **MRR@5: 0.9250**
+
+### Interpretation
+
+* The correct section appears within the top 3 results in **95% of queries**
+* In most cases, the correct section is ranked **first**, with occasional cases at rank 2
+
+### Example Retrieval
+
+* **Question:** Which law governs this agreement?
+* **Expected Section:** governing laws
+* **Top Retrieved Sections:** governing laws, governing laws, severability
+* **Result:** Correct section ranked first
+
+### Challenging Case
+
+* **Question:** What legal authority resolves disputes in this agreement?
+* **Expected Section:** governing laws
+* **Top Retrieved Sections:** general, governing laws, governing laws
+* **Result:** Correct section found at rank 2
+
+### Failure Case
+
+* **Question:** Does the company indemnify parties for tax penalties?
+* **Expected Section:** general
+* **Top Retrieved Sections:** taxes, taxes, taxes
+* **Result:** Correct section not retrieved in top 3
 
 ## Project Structure
-```
 
-legal-ai-assistant/
-├── fastapi\_app.py         # FastAPI backend
-├── legal\_assistant.py     # Core AI/ML logic
-├── streamlit\_app.py       # Streamlit frontend
+```text
+legal-assistant/
+│
+├── app/
+│   ├── fastapi_app.py
+│   └── legal_assistant.py
+├── evaluation/
+│   ├── eval_mrr.py
+│   └── eval_recall.py
 ├── templates/
-│   └── index.html         # HTML template for FastAPI app
-├── Dockerfile             # Docker image setup
-├── requirements.txt       # Python dependencies
-├── deployment.yaml        # Kubernetes deployment config
-├── service.yaml           # Kubernetes service config
+├── requirements.txt
+├── Dockerfile
 └── README.md
+```
 
-````
+## Tech Stack
 
-## Getting Started (Local Run)
+* Python
+* FastAPI
+* Sentence Transformers
+* PyTorch
+* Pandas
+* NumPy
+* Docker
+* AWS EC2
 
-1. **Clone the repository:**  
+## Run Locally
+
 ```bash
-git clone <repo-link>
-cd legal-ai-assistant
-````
-
-2. **Install dependencies:**
-
-```bash
-pip install --upgrade pip
+git clone <your-repo-url>
+cd legal-assistant
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
+uvicorn app.fastapi_app:app --reload --port 8000
 ```
 
-3. **Run FastAPI locally:**
+For Windows:
 
 ```bash
-uvicorn fastapi_app:app --reload --host 0.0.0.0 --port 8000
+venv\Scripts\activate
 ```
 
-4. **Run Streamlit locally:**
+Then open:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Run with Docker
 
 ```bash
-streamlit run streamlit_app.py
+docker build -t legal-ai-assistant .
+docker run -p 8000:8000 legal-ai-assistant
 ```
 
-## Deployment
+## Example Questions
 
-* Dockerized app for containerized deployment
-* Kubernetes deployment (`deployment.yaml`) and service (`service.yaml`) for GCP
-* Live deployment available via Streamlit and FastAPI endpoints
+* Who is responsible for paying insurance premiums and what proof may be required?
+* Which law governs this agreement?
+* How must notices be given under this agreement?
+* What happens if a provision is unenforceable?
+* Does this agreement override prior oral agreements?
 
-## Demo & Resources
 
-* \[Live Demo (Streamlit)]\([Streamlit Link](https://legal-assistant-9ebcqkryukwaww6c4fgpgv.streamlit.app/))
-* \[Video Demo]\([YouTube Link](https://youtu.be/2pU2D58i4Po))
-
-## Project Highlights
-
-* Demonstrates full AI/ML pipeline: dataset processing → embeddings → LLM integration → web interface → cloud deployment
-* Combines **FastAPI** and **Streamlit** for both API and interactive frontend
-* Scalable cloud-deployed solution using **Docker** and **Kubernetes**
 
