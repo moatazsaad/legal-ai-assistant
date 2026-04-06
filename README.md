@@ -18,7 +18,7 @@ It demonstrates practical AI engineering across:
 
 ## Key Features
 - Semantic retrieval using sentence embeddings and similarity scoring  
-- LLM-based answer generation (Flan-T5 / Qwen)  
+- LLM-based answer generation (Flan-T5)  
 - Transparent outputs with supporting provisions  
 - Evaluation pipeline with strong metrics  
 - FastAPI backend and Streamlit UI  
